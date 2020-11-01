@@ -6,7 +6,7 @@ eggs/
 wheels/
 
 .vscode/
-
+poetry.lock
 
 .ipynb_checkpoints
 

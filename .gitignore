@@ -5,6 +5,8 @@ eggs/
 *.egg-info/
 wheels/
 
+.vscode/
+
 
 .ipynb_checkpoints
 

@@ -5,6 +5,7 @@ eggs/
 *.egg-info/
 wheels/
 
+.DS_Store
 .vscode/
 poetry.lock
 
@@ -12,6 +13,7 @@ poetry.lock
 
 profile_default/
 ipython_config.py
+*__pycache__/
 
 .env
 .venv

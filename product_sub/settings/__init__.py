@@ -3,7 +3,7 @@ def _get_settings_module():
     import shutil
     from dotenv import load_dotenv
 
-    default_settings_module = "tweet_sentiment_extraction.settings.dev"
+    default_settings_module = "product_sub.settings.dev"
     this_folder = os.path.abspath(os.path.dirname(__file__))
     env_path = os.path.join(this_folder, ".env")
 
@@ -15,7 +15,7 @@ def _get_settings_module():
             os.chmod(env_path, 0o700)
 
     def get_settings_module_from_environment_variable():
-        variable_name = "TWEET_SE_SETTINGS_MODULE"
+        variable_name = "PRODUCT_SUB_MODULE"
         try:
             settings_module = os.environ[variable_name]
         except KeyError:

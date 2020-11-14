@@ -16,44 +16,39 @@ PROCESSED_DATA_DIR = os.path.join(DATA_DIR, "processed")
 INTERIM_DIR = os.path.join(DATA_DIR, "interim")
 
 
-ID_COL = "textID"
-TEXT_COL = "text"
-SENTIMENT_COL = "sentiment"
-SELECTED_TEXT_COL = "selected_text"
+SEP = ";"
 
-TOKENS_TEXT_COL = f"tokens_{TEXT_COL}"
-TOKENS_SELECTED_TEXT_COL = f"tokens_{SELECTED_TEXT_COL}"
-WORD_COL = "word_in_sentence"
-POSITION_IN_SENTENCE_COL = "word_position_in_sentence"
+COL_RAW_JOB = "JOB_TYPE"
+COL_RAW_STATUS = "STATUS"
+COL_RAW_DATE = "DATE"
+COL_RAW_AGE = "AGE"
+COL_RAW_EDUCATION = "EDUCATION"
+COL_RAW_HAS_DEFAULT = "HAS_DEFAULT"
+COL_RAW_BALANCE = "BALANCE"
+COL_RAW_HAS_HOUSING_LOAN = "HAS_HOUSING_LOAN"
+COL_RAW_HAS_PERSO_LOAN = "HAS_PERSO_LOAN"
+COL_RAW_CONTAT = "CONTACT"
+COL_RAW_DURATION_CONTACT = "DURATION_CONTACT"
+COL_RAW_NB_CONTACT = "NB_CONTACT"
+COL_RAW_NB_DAY_LAST_CONTACT = "NB_DAY_LAST_CONTACT"
+COL_RAW_NB_CONTACT_LAST_CAMPAIGN = "NB_CONTACT_LAST_CAMPAIGN"
+COL_RAW_RESULT_LAST_CAMPAIGN = "RESULAT_LAST_CAMPAIGN"
+COL_RAW_SUBSCRIPTION = "SUBSCRIPTION"
 
-SENTIMENT_ENCODING = {"negative": -1, "neutral": 0, "positive": 1}
+COL_QUARTER = "QUARTER"
+COL_SOCIO_DATE = "DATE_SOCIO"
 
-BOOLEAN_ENCODING = {True: 1, False: 0}
+COL_RAW_EMPL_VAR_RATE = "EMPLOYMENT_VARIATION_RATE"
+COL_RAW_IDX_CSMR_PRICE = "IDX_CONSUMER_PRICE"
+COL_RAW_IDX_CSMR_CONFIDENCE = "IDX_CONSUMER_CONFIDENCE"
 
-FEAT_LENGTH_TWEET_COL = "length_of_tweet"
-
-WORD_ENCODING_COL = "word_encoding"
-PREFIX_SPACY_ENCODING_COL = "spacy_enc"
-
-ML_FEATURES_COL = [f"{PREFIX_SPACY_ENCODING_COL}_{x}" for x in range(0, 300)] + [
-    SENTIMENT_COL
+ARRAY_WITH_COUPLE_TO_FILL_JOB = [["Tertiaire", "Manager"], ["Primaire", "Col bleu"]]
+ARRAY_WITH_COUPLE_TO_FILL_EDU = [
+    ["Manager", "Tertiaire"],
+    ["Admin", "Secondaire"],
+    ["Services", "Secondaire"],
 ]
-ML_PRED_COL = "ml_pred"
-ML_TARGET_COL = "ml_target"
 
-TOKENS_PRED_COL = "tokens_sentence_pred"
-SENTENCE_PRED_COL = "sentence_pred"
-SENTENCE_TARGET_COL = "sentence_target"
+BOOLEAN_ENCODING = {"Yes": 1, "No": 0}
 
-# Variables for Tensorflow run
-TARGET_SEQUENCE_COL = "target_sequence"
-CLEANED_TOKENS_COL = "cleaned_tokens"
-INDEXED_TOKENS_COL = "indexed_tokens"
-
-REGEX_PATTERN = {
-    "<link>": r'(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:\'".,<>?\xab\xbb\u201c\u201d\u2018\u2019]))',
-    "<hash>": r"#\w*",
-    "<mention>": r"@\w*",
-    "<retweet>": r"^(RT|FAV)",
-    "<duplicate_chars>": r"([A-Za-z])\1{2,}",
-}
+COL_YEAR_MONTH = "YEAR/MONTH"

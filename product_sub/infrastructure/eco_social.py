@@ -56,10 +56,12 @@ class EcoSocioContext:
         ##
         df_quarter = df.assign(
             **{
-                stg.COL_RAW_DATE: lambda df: pd.to_datetime(df[stg.COL_RAW_DATE])
+                stg.COL_DATE_WITH_ONE: lambda df: pd.to_datetime(df[stg.COL_RAW_DATE])
                 + pd.DateOffset(1)
             }
-        ).assign(**{stg.COL_QUARTER: lambda df: df[stg.COL_RAW_DATE].dt.to_period("Q")})
+        ).assign(
+            **{stg.COL_QUARTER: lambda df: df[stg.COL_DATE_WITH_ONE].dt.to_period("Q")}
+        )
 
         return df_quarter
 
@@ -75,5 +77,11 @@ class EcoSocioContext:
             else x[stg.COL_RAW_EMPL_VAR_RATE],
             axis=1,
         )
-        df_with_quarter = df_with_quarter.drop(columns=stg.COL_QUARTER)
+        df_with_quarter = df_with_quarter.drop(
+            columns=[stg.COL_QUARTER, stg.COL_DATE_WITH_ONE]
+        )
         return df_with_quarter
+
+
+if __name__ == "__main__":
+    test = EcoSocioContext("socio_eco.csv").data

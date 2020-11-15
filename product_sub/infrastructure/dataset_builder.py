@@ -52,6 +52,7 @@ class DatasetBuilder:
             how="left",
             on=stg.COL_YEAR_MONTH,
         )
+        print(df_socio_with_year_month["DATE"])
         cols_to_drop = [f"{stg.COL_RAW_DATE}_y", stg.COL_YEAR_MONTH]
         mapping_for_date = {f"{stg.COL_RAW_DATE}_x": stg.COL_RAW_DATE}
         df_merged_dropped = df_merged.drop(columns=cols_to_drop).rename(
@@ -79,3 +80,5 @@ class DatasetBuilder:
 if __name__ == "__main__":
     dataset_eco_socio = EcoSocioContext("socio_eco.csv").data
     dataset_marketing = MarketingCampaign("data.csv").data
+    data = DatasetBuilder("data.csv", "socio_eco.csv").merge()
+    print(data[stg.COL_RAW_EMPL_VAR_RATE])

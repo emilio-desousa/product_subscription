@@ -64,6 +64,9 @@ class MarketingCampaign:
             )
         return df_without_accent
 
+    def _convert_to_cat_type(self, df):
+        return df.astype(stg.COLS_TO_CAT_CONVERT)
+
     def _easy_yes_no_converter(
         self,
         df,
@@ -82,10 +85,10 @@ class MarketingCampaign:
     def _get_data_cleaned(self, df):
         df_with_no_accents = self._clean_accents(df)
         df_with_no_yes_no = self._easy_yes_no_converter(df_with_no_accents)
-        return df_with_no_yes_no
+        df_test = self._convert_to_cat_type(df_with_no_yes_no)
+        return df_test
 
 
 if __name__ == "__main__":
     objectMaerketing = MarketingCampaign("data.csv")
     df = objectMaerketing.data
-    print(df)

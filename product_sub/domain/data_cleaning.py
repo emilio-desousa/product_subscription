@@ -1,34 +1,42 @@
 import product_sub.settings as stg
 from product_sub.infrastructure.dataset_builder import DatasetBuilder
 from sklearn.base import BaseEstimator, TransformerMixin
-from product_sub.domain.feature_selector import FeatureSelector
-import numpy as np
 
 
 class CatImputer(BaseEstimator, TransformerMixin):
-    def __init__(self, feature_names):
-        self._feature_names = feature_names
+    def __init__(self):
+        pass
 
     def fit(self, X, y=None):
         return self
 
     def transform(self, X, y=None):
-        for feature in self._feature_names:
+        df = X.copy()
+        for feature in df:
+            if not feature == stg.COL_RAW_RESULT_LAST_CAMPAIGN:
+                df = df.assign(
+                    **{feature: lambda df: df[feature].cat.add_categories("Autre")}
+                )
             if feature == stg.COL_RAW_JOB:
-                X = self._deal_with_job_type(X)
+                df = self._deal_with_job_type(df)
             if feature == stg.COL_RAW_EDUCATION:
-                X = self._deal_with_education_nan(X)
-            else:
-                X = X.fillna("Autre")
-        return X
+                df = self._deal_with_education_nan(df)
+            if feature == stg.COL_RAW_RESULT_LAST_CAMPAIGN:
+                df = df.assign(
+                    **{
+                        feature: lambda df: df[feature].cat.add_categories(
+                            "premier_contact"
+                        )
+                    }
+                )
+                df = df.assign(
+                    **{feature: lambda df: df[feature].fillna("premier_contact")}
+                )
+            if feature == stg.COL_RAW_STATUS:
+                df = df.assign(**{feature: lambda df: df[feature].fillna("Marie")})
 
-    def _fillna_edu(self, df, filter_val, val):
-        df2 = df.copy()
-        mask = df[stg.COL_RAW_JOB] == filter_val
-        df2.loc[mask, stg.COL_RAW_EDUCATION] = df.loc[
-            mask, stg.COL_RAW_EDUCATION
-        ].fillna(val)
-        return df2
+        df = df.fillna("Autre")
+        return df
 
     def _fillna_from_job_or_edu(self, df, filter_val, val, is_job):
         df2 = df.copy()
@@ -66,36 +74,54 @@ class NumImputer(BaseEstimator, TransformerMixin):
 
     def transform(self, X, y=None):
         X = X.fillna(X.mean())
-        return X.values
+        return X
 
 
 if __name__ == "__main__":
+    from product_sub.domain.feature_selector import FeatureSelector
+    import numpy as np
+    from sklearn.pipeline import (
+        FeatureUnion,
+        Pipeline,
+        make_pipeline,
+        make_union,
+    )
 
-    def check_missing_with_two_col(df, feat1, feat2):
-        jobs = list(df[feat1].unique())
-        edu = list(df[feat2].unique())
-        dataframes = []
-        for e in edu:
-            dfe = df[df[feat2] == e][feat1]
-            print(f"{feat1} {e} :{dfe.isna().sum()}")
-        print(f"{df[feat1].value_counts()}")
-        print(f"Total missing : {df[feat1].isna().sum()}")
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.preprocessing import OneHotEncoder, StandardScaler
+    from sklearn.compose import make_column_selector as selector
+    from sklearn.compose import ColumnTransformer
+    from sklearn.model_selection import train_test_split
 
-    def get_missing_percent(df_tmp):
-        sum_na = df_tmp.isna().sum()
-        size = df_tmp.shape[0]
-        percents_missing = sum_na / size * 100
-        sorted_percents = percents_missing.sort_values(ascending=False)
-        print(
-            f"###\n###\n### Pourcentage de valeurs manquantes par colonnes \n###\n###\n###\n{sorted_percents}"
-        )
+    RANDOM_STATE = 42
 
     dataset_merged = DatasetBuilder(
         filename_bank="data.csv", filename_socio="socio_eco.csv"
-    ).merge()
-    X = FeatureSelector(object).fit(dataset_merged).transform(dataset_merged)
-    nan = (
-        CatImputer(feature_names=["JOB_TYPE", "EDUCATION"])
-        .fit(dataset_merged)
-        .transform(X)
+    ).create_dataset()
+    X = dataset_merged.drop(columns=stg.COL_RAW_SUBSCRIPTION)
+    y = dataset_merged[stg.COL_RAW_SUBSCRIPTION].values
+    cat_imputer = CatImputer(["JOB_TYPE", "EDUCATION"])
+    categorical_transformer = Pipeline(
+        steps=[("cat_imputer", cat_imputer), ("encoder", OneHotEncoder())]
     )
+    numeric_transformer = Pipeline(
+        steps=[("num_imputer", NumImputer()), ("scaler", StandardScaler())]
+    )
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("num", numeric_transformer, selector(dtype_exclude="category")),
+            ("cat", categorical_transformer, selector(dtype_include="category")),
+        ]
+    )
+    clf = Pipeline(
+        steps=[
+            ("preprocessor", preprocessor),
+            ("classifier", LogisticRegression()),
+        ]
+    )
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=RANDOM_STATE
+    )
+
+    x_test, y = clf.fit(X_train, y_train)

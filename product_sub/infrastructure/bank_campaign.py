@@ -64,6 +64,9 @@ class MarketingCampaign:
             )
         return df_without_accent
 
+    def _delete_outliers_from_age(self, df):
+        return df[df[stg.COL_RAW_AGE] < 110]
+
     def _convert_to_cat_type(self, df):
         return df.astype(stg.COLS_TO_CAT_CONVERT)
 
@@ -85,8 +88,9 @@ class MarketingCampaign:
     def _get_data_cleaned(self, df):
         df_with_no_accents = self._clean_accents(df)
         df_with_no_yes_no = self._easy_yes_no_converter(df_with_no_accents)
-        df_test = self._convert_to_cat_type(df_with_no_yes_no)
-        return df_test
+        df_with_cat_type = self._convert_to_cat_type(df_with_no_yes_no)
+        df_without_outliers_from_age = self._delete_outliers_from_age(df_with_cat_type)
+        return df_without_outliers_from_age
 
 
 if __name__ == "__main__":

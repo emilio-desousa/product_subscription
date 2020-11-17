@@ -16,6 +16,7 @@ PROCESSED_DATA_DIR = os.path.join(DATA_DIR, "processed")
 INTERIM_DIR = os.path.join(DATA_DIR, "interim")
 
 RANDOM_STATE = 42
+AGE_RETIRED = 65
 SEP = ";"
 
 COL_RAW_JOB = "JOB_TYPE"
@@ -34,6 +35,10 @@ COL_RAW_NB_DAY_LAST_CONTACT = "NB_DAY_LAST_CONTACT"
 COL_RAW_NB_CONTACT_LAST_CAMPAIGN = "NB_CONTACT_LAST_CAMPAIGN"
 COL_RAW_RESULT_LAST_CAMPAIGN = "RESULT_LAST_CAMPAIGN"
 COL_RAW_SUBSCRIPTION = "SUBSCRIPTION"
+
+COL_MONTH = "MONTH"
+COL_WEEKDAY = "WEEKDAY"
+
 
 TYPE_FOR_CATEGORY = "category"
 COLS_TO_CAT_CONVERT = {
@@ -63,3 +68,36 @@ ARRAY_WITH_COUPLE_TO_FILL_EDU = [
 BOOLEAN_ENCODING = {"Yes": 1, "No": 0}
 
 COL_YEAR_MONTH = "YEAR/MONTH"
+
+DICT_TO_CREATE_COLS = [
+    {
+        "inf": None,
+        "sup": 0,
+        "column_source": COL_RAW_NB_CONTACT_LAST_CAMPAIGN,
+        "column_dist": "is_first_campaign",
+    },
+    {
+        "inf": 0,
+        "sup": 4,
+        "column_source": COL_RAW_NB_CONTACT_LAST_CAMPAIGN,
+        "column_dist": "nb_contact_last_campaign_inf_4",
+    },
+    {
+        "inf": 4,
+        "sup": 8,
+        "column_source": COL_RAW_NB_CONTACT_LAST_CAMPAIGN,
+        "column_dist": "nb_contact_last_campaign_inf_8",
+    },
+    {
+        "inf": 8,
+        "sup": 12,
+        "column_source": COL_RAW_NB_CONTACT_LAST_CAMPAIGN,
+        "column_dist": "nb_contact_last_campaign_inf_12",
+    },
+    {
+        "inf": 12,
+        "sup": None,
+        "column_source": COL_RAW_NB_CONTACT_LAST_CAMPAIGN,
+        "column_dist": "nb_contact_last_campaign_sup_12",
+    },
+]

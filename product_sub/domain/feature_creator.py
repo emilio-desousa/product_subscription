@@ -37,6 +37,7 @@ class CategoricalCreatorFromNumerical(BaseEstimator, TransformerMixin):
 
     def transform(self, X, y=None):
         X = self._create_cat_columns_from_dict(X)
+        print(X.iloc[1:4, 12:])
         return X
 
     def _create_col(self, df, inf, sup, column_source, column_dist):
@@ -65,20 +66,26 @@ class CategoricalFeatureCreator(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X, y=None):
-        X["is_first_campaign"] = 0
+        X["is_last_campaign_success"] = 0
+        X["is_last_campaign_fail"] = 0
         X.loc[
-            (X[stg.COL_RAW_RESULT_LAST_CAMPAIGN] == "premier_contact"),
-            "is_first_campaign",
+            (X[stg.COL_RAW_RESULT_LAST_CAMPAIGN] == "Succes"),
+            "is_last_campaign_success",
         ] = 1
-        print(X.isna().sum())
+        X.loc[
+            (X[stg.COL_RAW_RESULT_LAST_CAMPAIGN] == "Echec"),
+            "is_last_campaign_fail",
+        ] = 1
+        X = X.drop(columns=stg.COL_RAW_RESULT_LAST_CAMPAIGN)
         return X
 
 
 if __name__ == "__main__":
     from sklearn.pipeline import Pipeline
     from product_sub.domain.data_cleaning import NumImputer, CatImputer
-    from sklearn.preprocessing import OneHotEncoder, StandardScaler, LabelEncoder
+    from sklearn.preprocessing import StandardScaler, LabelEncoder
     from sklearn.compose import make_column_selector as selector, ColumnTransformer
+    from product_sub.domain.feature_encoder import OneHotEncoder
 
     numeric_transformer = Pipeline(
         steps=[
@@ -96,12 +103,12 @@ if __name__ == "__main__":
             ("cat_creator", CategoricalFeatureCreator()),
             (
                 "freq_encoder",
-                FrequencyEncoder([stg.COL_RAW_CONTACT, stg.COL_RAW_EDUCATION]),
+                FrequencyEncoder(stg.COLS_TO_FREQ_ENCODE),
             ),
-            ("encoder", OneHotEncoder()),
+            ("one_hot_encoder", OneHotEncoder([stg.COL_RAW_JOB])),
         ]
     )
-
+    # preprocessor.transformers[1][1].steps[3][1].categories_
     preprocessor = ColumnTransformer(
         transformers=[
             ("num", numeric_transformer, selector(dtype_exclude="category")),

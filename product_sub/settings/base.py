@@ -48,8 +48,8 @@ COLS_TO_CAT_CONVERT = {
     COL_RAW_STATUS: TYPE_FOR_CATEGORY,
     COL_RAW_RESULT_LAST_CAMPAIGN: TYPE_FOR_CATEGORY,
 }
-
-
+COLS_TO_FREQ_ENCODE = [COL_RAW_CONTACT, COL_RAW_EDUCATION, COL_RAW_STATUS]
+COLS_TO_ONEHOT = [COL_RAW_JOB]
 COL_QUARTER = "QUARTER"
 COL_SOCIO_DATE = "DATE_SOCIO"
 COL_DATE_WITH_ONE = "DATE_1"
@@ -100,4 +100,43 @@ DICT_TO_CREATE_COLS = [
         "column_source": COL_RAW_NB_CONTACT_LAST_CAMPAIGN,
         "column_dist": "nb_contact_last_campaign_sup_12",
     },
+]
+
+FINAL_COLUMNS = [
+    COL_RAW_AGE,
+    COL_RAW_HAS_DEFAULT,
+    COL_RAW_BALANCE,
+    COL_RAW_HAS_HOUSING_LOAN,
+    COL_RAW_HAS_PERSO_LOAN,
+    COL_RAW_DURATION_CONTACT,
+    COL_RAW_NB_CONTACT,
+    COL_RAW_NB_DAY_LAST_CONTACT,
+    COL_RAW_NB_CONTACT_LAST_CAMPAIGN,
+    COL_RAW_EMPL_VAR_RATE,
+    COL_RAW_IDX_CSMR_PRICE,
+    COL_RAW_IDX_CSMR_CONFIDENCE,
+    COL_MONTH,
+    COL_WEEKDAY,
+    "is_first_campaign",
+    "nb_contact_last_campaign_inf_4",
+    "nb_contact_last_campaign_inf_8",
+    "nb_contact_last_campaign_inf_12",
+    "nb_contact_last_campaign_sup_12",
+    COL_RAW_STATUS,
+    COL_RAW_EDUCATION,
+    COL_RAW_CONTACT,
+    "is_last_campaign_success",
+    "is_last_campaign_fail",
+    "Admin",
+    "Chomeur",
+    "Col bleu",
+    "Employe de menage",
+    "Entrepreneur",
+    "Etudiant",
+    "Independant",
+    "Manager",
+    "Retraite",
+    "Services",
+    "Technicien",
+    "Autre",
 ]

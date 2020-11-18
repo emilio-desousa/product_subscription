@@ -65,7 +65,10 @@ class MarketingCampaign:
         return df_without_accent
 
     def _delete_outliers_from_age(self, df):
-        return df[df[stg.COL_RAW_AGE] < 110]
+        df.loc[df[stg.COL_RAW_AGE] > 110, stg.COL_RAW_AGE] = df[
+            stg.COL_RAW_AGE
+        ].median()
+        return df
 
     def _convert_to_cat_type(self, df):
         return df.astype(stg.COLS_TO_CAT_CONVERT)
@@ -95,4 +98,5 @@ class MarketingCampaign:
 
 if __name__ == "__main__":
     objectMaerketing = MarketingCampaign("data.csv")
+    # test = objectMaerketing._delete_outliers_from_age()
     df = objectMaerketing.data

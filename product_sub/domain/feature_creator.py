@@ -37,7 +37,6 @@ class CategoricalCreatorFromNumerical(BaseEstimator, TransformerMixin):
 
     def transform(self, X, y=None):
         X = self._create_cat_columns_from_dict(X)
-        print(X.iloc[1:4, 12:])
         return X
 
     def _create_col(self, df, inf, sup, column_source, column_dist):

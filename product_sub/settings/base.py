@@ -16,7 +16,11 @@ PROCESSED_DATA_DIR = os.path.join(DATA_DIR, "processed")
 INTERIM_DIR = os.path.join(DATA_DIR, "interim")
 
 RANDOM_STATE = 42
-AGE_RETIRED = 65
+
+FILENAME_BANK = "data.csv"
+FILENAME_SOCIO_ECO = "socio_eco.csv"
+
+
 SEP = ";"
 
 COL_RAW_JOB = "JOB_TYPE"
@@ -69,6 +73,8 @@ BOOLEAN_ENCODING = {"Yes": 1, "No": 0}
 
 COL_YEAR_MONTH = "YEAR/MONTH"
 
+
+AGE_RETIRED = 65
 DICT_TO_CREATE_COLS = [
     {
         "inf": None,

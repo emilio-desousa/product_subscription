@@ -1,31 +1,24 @@
 from product_sub.infrastructure.dataset_builder import DatasetBuilder
-from product_sub.domain.data_cleaning import NumImputer, CatImputer
-from product_sub.domain.feature_creator import (
-    CategoricalCreatorFromNumerical,
-    CategoricalFeatureCreator,
-)
-from product_sub.domain.feature_encoder import OneHotEncoder, FrequencyEncoder
+from product_sub.domain.pipeline_creator import PipelineCreator
 import product_sub.settings as stg
 
-import seaborn as sns
-import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from sklearn.pipeline import FeatureUnion, Pipeline, make_pipeline, make_union
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import StratifiedKFold, GridSearchCV
-from sklearn.metrics import classification_report
-
-from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
-from sklearn.compose import make_column_selector as selector
-from sklearn.compose import ColumnTransformer
-
-import numpy as np
-import pandas as pd
 
 
 def main():
-    print("bla")
+    dataset_merged = DatasetBuilder(
+        filename_bank=stg.FILENAME_BANK, filename_socio=stg.FILENAME_SOCIO_ECO
+    ).create_dataset()
+    X = dataset_merged.drop(columns=stg.COL_RAW_SUBSCRIPTION)
+    y = dataset_merged[stg.COL_RAW_SUBSCRIPTION].values
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=stg.RANDOM_STATE
+    )
+
+    custom_pipeline_accessor = PipelineCreator()
+    preprocessor = custom_pipeline_accessor.preprocessor
+    X_train_processed = preprocessor.fit_transform(X_train)
 
 
 if __name__ == "__main__":

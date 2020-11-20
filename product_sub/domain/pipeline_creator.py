@@ -1,4 +1,4 @@
-from product_sub.domain.data_cleaning import NumImputer, CatImputer
+from product_sub.domain.data_cleaning import CatImputer
 from product_sub.domain.feature_creator import (
     CategoricalCreatorFromNumerical,
     CategoricalFeatureCreator,
@@ -11,6 +11,7 @@ from sklearn.compose import make_column_selector as selector, ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
 
 from product_sub.domain.feature_encoder import OneHotEncoder, FrequencyEncoder
+from sklearn.impute import SimpleImputer
 
 
 class PipelineCreator:
@@ -21,12 +22,12 @@ class PipelineCreator:
     def numerical_transformer(self):
         return Pipeline(
             steps=[
-                ("num_imputer", NumImputer()),
                 (
                     "create_categorical",
                     CategoricalCreatorFromNumerical(stg.DICT_TO_CREATE_COLS),
                 ),
-                ("scaler", MinMaxScaler()),
+                ("num_imputer", SimpleImputer(strategy="mean")),
+                ("scaler", StandardScaler()),
             ]
         )
 

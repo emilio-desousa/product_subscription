@@ -43,6 +43,7 @@ COL_RAW_SUBSCRIPTION = "SUBSCRIPTION"
 COL_MONTH = "MONTH"
 COL_WEEKDAY = "WEEKDAY"
 
+COL_IS_FIRST_CAMPAIGN = "is_first_campaign"
 
 TYPE_FOR_CATEGORY = "category"
 COLS_TO_CAT_CONVERT = {
@@ -108,6 +109,120 @@ DICT_TO_CREATE_COLS = [
     },
 ]
 
+
+DICT_CONTINUOUS_TO_CATEGORICAL = [
+    {
+        "inf": None,
+        "sup": 0,
+        "column_source": COL_RAW_NB_CONTACT_LAST_CAMPAIGN,
+        "val": 0,
+    },
+    {
+        "inf": 0,
+        "sup": 4,
+        "column_source": COL_RAW_NB_CONTACT_LAST_CAMPAIGN,
+        "val": 1,
+    },
+    {
+        "inf": 4,
+        "sup": 8,
+        "column_source": COL_RAW_NB_CONTACT_LAST_CAMPAIGN,
+        "val": 2,
+    },
+    {
+        "inf": 8,
+        "sup": 12,
+        "column_source": COL_RAW_NB_CONTACT_LAST_CAMPAIGN,
+        "val": 3,
+    },
+    {
+        "inf": 12,
+        "sup": None,
+        "column_source": COL_RAW_NB_CONTACT_LAST_CAMPAIGN,
+        "val": 4,
+    },
+    {
+        "inf": None,
+        "sup": -1,
+        "column_source": COL_RAW_NB_DAY_LAST_CONTACT,
+        "val": 0,
+    },
+    {
+        "inf": 0,
+        "sup": 50,
+        "column_source": COL_RAW_NB_DAY_LAST_CONTACT,
+        "val": 1,
+    },
+    {
+        "inf": 50,
+        "sup": 200,
+        "column_source": COL_RAW_NB_DAY_LAST_CONTACT,
+        "val": 2,
+    },
+    {
+        "inf": 200,
+        "sup": 400,
+        "column_source": COL_RAW_NB_DAY_LAST_CONTACT,
+        "val": 3,
+    },
+    {
+        "inf": 400,
+        "sup": None,
+        "column_source": COL_RAW_NB_DAY_LAST_CONTACT,
+        "val": 4,
+    },
+    {
+        "inf": 0,
+        "sup": 100,
+        "column_source": COL_RAW_DURATION_CONTACT,
+        "val": 0,
+    },
+    {
+        "inf": 100,
+        "sup": 500,
+        "column_source": COL_RAW_DURATION_CONTACT,
+        "val": 1,
+    },
+    {
+        "inf": 500,
+        "sup": 1000,
+        "column_source": COL_RAW_DURATION_CONTACT,
+        "val": 2,
+    },
+    {
+        "inf": 1000,
+        "sup": None,
+        "column_source": COL_RAW_DURATION_CONTACT,
+        "val": 3,
+    },
+]
+dict_with_duration_to_categorize = [
+    {
+        "inf": 0,
+        "sup": 100,
+        "column_source": COL_RAW_DURATION_CONTACT,
+        "column_dist": "short_duration_contact",
+    },
+    {
+        "inf": 100,
+        "sup": 500,
+        "column_source": COL_RAW_DURATION_CONTACT,
+        "column_dist": "middle_duration_contact",
+    },
+    {
+        "inf": 500,
+        "sup": 1000,
+        "column_source": COL_RAW_DURATION_CONTACT,
+        "column_dist": "long_duration_contact",
+    },
+    {
+        "inf": 1000,
+        "sup": None,
+        "column_source": COL_RAW_DURATION_CONTACT,
+        "column_dist": "so_long_contact",
+    },
+]
+
 FINAL_COLUMNS = [
     COL_RAW_AGE,
     COL_RAW_HAS_DEFAULT,
@@ -124,10 +239,14 @@ FINAL_COLUMNS = [
     COL_MONTH,
     COL_WEEKDAY,
     "is_first_campaign",
-    "nb_contact_last_campaign_inf_4",
-    "nb_contact_last_campaign_inf_8",
-    "nb_contact_last_campaign_inf_12",
-    "nb_contact_last_campaign_sup_12",
+    # "nb_contact_last_campaign_inf_4",
+    # "nb_contact_last_campaign_inf_8",
+    # "nb_contact_last_campaign_inf_12",
+    # "nb_contact_last_campaign_sup_12",
+    # "short_duration_contact",
+    # "middle_duration_contact",
+    # "long_duration_contact",
+    # "so_long_contact",
     COL_RAW_STATUS,
     COL_RAW_EDUCATION,
     COL_RAW_CONTACT,

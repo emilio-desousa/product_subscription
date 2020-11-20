@@ -49,11 +49,39 @@ class CategoricalCreatorFromNumerical(BaseEstimator, TransformerMixin):
             df.loc[
                 (df[column_source] > inf) & (df[column_source] < sup), column_dist
             ] = 1
+        return column_source
 
     def _create_cat_columns_from_dict(self, df):
         df_to_create_cols = df.copy()
+        source_cols_to_drop = []
         for dict_with_bounds in self.array_with_dicts_with_bounds:
-            self._create_col(df_to_create_cols, **dict_with_bounds)
+            col_to_drop = self._create_col(df_to_create_cols, **dict_with_bounds)
+            source_cols_to_drop.append(col_to_drop)
+        cols_to_drop = list(set(source_cols_to_drop))
+        df_to_create_cols = df_to_create_cols.drop(columns=cols_to_drop)
+        return df_to_create_cols
+
+    def _create_val(self, df, inf, sup, column_source, val):
+        if inf == None:
+            df[stg.COL_IS_FIRST_CAMPAIGN] = 0
+            df.loc[(df[column_source] == sup), column_source] = val
+            df.loc[(df[column_source] == sup), stg.COL_IS_FIRST_CAMPAIGN] = 1
+        elif sup == None:
+            df.loc[(df[column_source] > inf), column_source] = val
+        else:
+            df.loc[
+                (df[column_source] > inf) & (df[column_source] < sup), column_source
+            ] = val
+        return column_source
+
+    def _create_val_from_dict(self, df):
+        df_to_create_cols = df.copy()
+        source_cols_to_drop = []
+        for dict_with_bounds in self.array_with_dicts_with_bounds:
+            col_to_drop = self._create_val(df_to_create_cols, **dict_with_bounds)
+            source_cols_to_drop.append(col_to_drop)
+        cols_to_drop = list(set(source_cols_to_drop))
+        # df_to_create_cols = df_to_create_cols.drop(columns=cols_to_drop)
         return df_to_create_cols
 
 

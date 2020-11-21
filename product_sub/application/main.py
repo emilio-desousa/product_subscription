@@ -41,9 +41,7 @@ def main():
 
     update_progress(0.3)
     print("progress : Deal with imbalenced classes")
-    smote_enn = SMOTEENN(
-        sampling_strategy=0.8, random_state=stg.RANDOM_STATE, n_jobs=-1
-    )
+    smote_enn = SMOTEENN(sampling_strategy=0.8, random_state=stg.RANDOM_STATE, n_jobs=-1)
     X_train, y_train = smote_enn.fit_resample(X_train_processed, y_train)
 
     update_progress(0.6)
@@ -58,9 +56,12 @@ def main():
         filename_socio=stg.FILENAME_SOCIO_ECO,
         is_test=True,
     ).create_dataset()
-    X_test = preprocessor_pipeline.transform(X_test)
-    gradient_classifier.predict(X_test)
+    X_test_transformed = preprocessor_pipeline.transform(X_test)
+    predictions = gradient_classifier.predict(X_test_transformed)
+    X_test["PREDICTED_SUBSCRIPTION"] = predictions
+    X_test.to_csv(join(stg.PROCESSED_DATA_DIR, "predictions.csv"))
     print("Completed!")
+    print("You can find the csv file with the predictions inside in data/processed/predictions.csv ! ")
 
 
 if __name__ == "__main__":

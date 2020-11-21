@@ -55,19 +55,14 @@ class EcoSocioContext:
         ## [HACK] Add one day to Date to get the good quarter
         ##
         df_quarter = df.assign(
-            **{
-                stg.COL_RAW_DATE: lambda df: pd.to_datetime(df[stg.COL_RAW_DATE])
-                + pd.DateOffset(1)
-            }
-        ).assign(**{stg.COL_QUARTER: lambda df: df[stg.COL_RAW_DATE].dt.to_period("Q")})
+            **{stg.COL_DATE_WITH_ONE: lambda df: pd.to_datetime(df[stg.COL_RAW_DATE]) + pd.DateOffset(1)}
+        ).assign(**{stg.COL_QUARTER: lambda df: df[stg.COL_DATE_WITH_ONE].dt.to_period("Q")})
 
         return df_quarter
 
     def _clean_employ_rate_nan(self, df):
         df_with_quarter = self._add_quarter(df)
-        empl_with_quarter = df_with_quarter.groupby(stg.COL_QUARTER)[
-            stg.COL_RAW_EMPL_VAR_RATE
-        ].mean()
+        empl_with_quarter = df_with_quarter.groupby(stg.COL_QUARTER)[stg.COL_RAW_EMPL_VAR_RATE].mean()
 
         df_with_quarter[stg.COL_RAW_EMPL_VAR_RATE] = df_with_quarter.apply(
             lambda x: empl_with_quarter[x[stg.COL_QUARTER]]
@@ -75,5 +70,9 @@ class EcoSocioContext:
             else x[stg.COL_RAW_EMPL_VAR_RATE],
             axis=1,
         )
-        df_with_quarter = df_with_quarter.drop(columns=stg.COL_QUARTER)
+        df_with_quarter = df_with_quarter.drop(columns=[stg.COL_QUARTER, stg.COL_DATE_WITH_ONE])
         return df_with_quarter
+
+
+if __name__ == "__main__":
+    test = EcoSocioContext("socio_eco.csv").data

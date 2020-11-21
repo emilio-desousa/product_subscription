@@ -14,6 +14,7 @@ profile_default/
 ipython_config.py
 *__pycache__/
 
+#notebooks_dev/
 
 dist/
 .venv

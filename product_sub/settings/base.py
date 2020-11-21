@@ -19,6 +19,12 @@ RANDOM_STATE = 42
 
 FILENAME_BANK = "data.csv"
 FILENAME_SOCIO_ECO = "socio_eco.csv"
+FILENAME_DATA_TEST = "data_test.csv"
+
+
+FILENAME_BANK_TRAIN = "data_train.csv"
+FILENAME_SOCIO_ECO_TRAIN = "socio_eco.csv"
+FILENAME_DATA_TEST = "data_test.csv"
 
 
 SEP = ";"
@@ -170,30 +176,6 @@ DICT_CONTINUOUS_TO_CATEGORICAL = [
         "sup": None,
         "column_source": COL_RAW_NB_DAY_LAST_CONTACT,
         "val": 4,
-    },
-    {
-        "inf": 0,
-        "sup": 100,
-        "column_source": COL_RAW_DURATION_CONTACT,
-        "val": 0,
-    },
-    {
-        "inf": 100,
-        "sup": 500,
-        "column_source": COL_RAW_DURATION_CONTACT,
-        "val": 1,
-    },
-    {
-        "inf": 500,
-        "sup": 1000,
-        "column_source": COL_RAW_DURATION_CONTACT,
-        "val": 2,
-    },
-    {
-        "inf": 1000,
-        "sup": None,
-        "column_source": COL_RAW_DURATION_CONTACT,
-        "val": 3,
     },
 ]
 dict_with_duration_to_categorize = [

@@ -6,11 +6,15 @@ from product_sub.domain.feature_creator import (
 import product_sub.settings as stg
 
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
 from sklearn.compose import make_column_selector as selector, ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
 
-from product_sub.domain.feature_encoder import OneHotEncoder, FrequencyEncoder
+from product_sub.domain.feature_encoder import (
+    OneHotEncoder,
+    FrequencyEncoder,
+    LabelEncoding,
+)
 from sklearn.impute import SimpleImputer
 
 
@@ -24,7 +28,7 @@ class PipelineCreator:
             steps=[
                 (
                     "create_categorical",
-                    CategoricalCreatorFromNumerical(stg.DICT_TO_CREATE_COLS),
+                    CategoricalCreatorFromNumerical(stg.DICT_CONTINUOUS_TO_CATEGORICAL),
                 ),
                 ("num_imputer", SimpleImputer(strategy="mean")),
                 ("scaler", StandardScaler()),

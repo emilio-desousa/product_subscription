@@ -5,7 +5,7 @@ description = ""
 authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.scripts]
-myawesomecli = "product_sub.application.main:main"
+predict_sub = "product_sub.application.main:main"
 
 [tool.poetry.dependencies]
 python = "^3.8"

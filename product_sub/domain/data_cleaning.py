@@ -65,18 +65,6 @@ class CatImputer(BaseEstimator, TransformerMixin):
         return X
 
 
-class NumImputer(BaseEstimator, TransformerMixin):
-    def __init__(self):
-        pass
-
-    def fit(self, X, y=None):
-        return self
-
-    def transform(self, X, y=None):
-        X = X.fillna(X.mean())
-        return X
-
-
 if __name__ == "__main__":
     from product_sub.domain.feature_selector import FeatureSelector
     import numpy as np

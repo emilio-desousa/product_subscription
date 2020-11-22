@@ -17,6 +17,7 @@ By SSH
 $ git clone git@gitlab.com:yotta-academy/mle-bootcamp/projects/ml-project/fall-2020/productsubscription_eds_dm.git
 or By https
 $ git clone https://gitlab.com/yotta-academy/mle-bootcamp/projects/ml-project/fall-2020/productsubscription_eds_dm.git
+$ cd productsubscription_eds_dm/
 $ poetry install  # Install virtual environment with packages from pyproject.toml file
 ``` 
 

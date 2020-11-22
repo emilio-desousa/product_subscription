@@ -2,7 +2,7 @@
 name = "product_sub"
 version = "0.1.0"
 description = ""
-authors = ["desousa.emilio.info@gmail.com", "d.mellot@hotmail.fr"]
+authors = ["Emilio DE SOUSA desousa.emilio.info@gmail.com", "Damien MELLOT d.mellot@hotmail.fr"]
 
 [tool.poetry.scripts]
 deposit_subscription = "product_sub.application.main:main"

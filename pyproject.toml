@@ -2,10 +2,10 @@
 name = "product_sub"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["desousa.emilio.info@gmail.com", "d.mellot@hotmail.fr"]
 
 [tool.poetry.scripts]
-predict_sub = "product_sub.application.main:main"
+deposit_subscription = "product_sub.application.main:main"
 
 [tool.poetry.dependencies]
 python = "^3.8"

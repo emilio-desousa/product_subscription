@@ -38,6 +38,7 @@ $ deposit_subscription --filename_to_predict  <filename_to_predict>
 ### Find predictions
 
 After running the script, you will be able to find the prediction results in a **csv** file in the **data/processed** folder. 
-**0** is for **No**
-**1** is for **Yes**
+- **0** is for **No**
+- **1** is for **Yes**
+
 *Care, you can overwrite it, please move it into another folder if you want to make another prediction*

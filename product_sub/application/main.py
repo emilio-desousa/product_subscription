@@ -28,9 +28,7 @@ def main():
     update_progress(0)
     print("progress : Predict subscription")
 
-    dataset_merged = DatasetBuilder(
-        filename_bank=stg.FILENAME_BANK_TRAIN, filename_socio=stg.FILENAME_SOCIO_ECO
-    ).create_dataset()
+    dataset_merged = DatasetBuilder(filename_bank=stg.FILENAME_BANK, filename_socio=stg.FILENAME_SOCIO_ECO).create_dataset()
     X_train = dataset_merged.drop(columns=stg.COL_RAW_SUBSCRIPTION)
     y_train = dataset_merged[stg.COL_RAW_SUBSCRIPTION].values
 

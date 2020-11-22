@@ -4,6 +4,14 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 
 class CatImputer(BaseEstimator, TransformerMixin):
+    """Impute nan values from categorical features
+
+    Parameters
+    ----------
+    BaseEstimator
+    TransformerMixin
+    """
+
     def __init__(self):
         pass
 
@@ -11,6 +19,22 @@ class CatImputer(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X, y=None):
+        """Fill nan values thnaks to differents values from other features
+        Ex: if JOB_TYPE = Manager and Education is missing => Fill Education with "Tertiaire"
+                because it is the mode of Education when job is Manager
+
+        Parameters
+        ----------
+        X : pandas.DataFrame
+            DataFrame to transform ( with only categorical features )
+        y : np.Array, optional
+            targets, by default None
+
+        Returns
+        -------
+        pandas.DataFrame
+            Transformed Dataframe ( with no more nan values is categorical featurees)
+        """
         df = X.copy()
         for feature in df:
             if not feature == stg.COL_RAW_RESULT_LAST_CAMPAIGN:

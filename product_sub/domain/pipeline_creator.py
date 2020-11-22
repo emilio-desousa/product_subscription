@@ -13,17 +13,27 @@ from sklearn.ensemble import RandomForestClassifier
 from product_sub.domain.feature_encoder import (
     OneHotEncoder,
     FrequencyEncoder,
-    LabelEncoding,
+    LabelEncoder,
 )
 from sklearn.impute import SimpleImputer
 
 
 class PipelineCreator:
+    """Class to abstract pipeline creation"""
+
     def __init__(self):
+        """class initilisation"""
         pass
 
     @property
     def numerical_transformer(self):
+        """Pipeline with all steps relatives to numerical features
+
+        Returns
+        -------
+        Pipeline
+            Pipeline to transform numerical features
+        """
         return Pipeline(
             steps=[
                 (
@@ -37,6 +47,13 @@ class PipelineCreator:
 
     @property
     def categorical_transformer(self):
+        """Pipeline with all steps relatives to categorical features
+
+        Returns
+        -------
+        Pipeline
+            Pipeline to transform categorical features
+        """
         return Pipeline(
             steps=[
                 ("cat_imputer", CatImputer()),
@@ -51,6 +68,13 @@ class PipelineCreator:
 
     @property
     def preprocessor(self):
+        """Pipeline with numerical pipeline combined with categorical pipeline
+
+        Returns
+        -------
+        Pipeline
+            Pipeline with num and cat transformers
+        """
         return ColumnTransformer(
             transformers=[
                 ("num", self.numerical_transformer, selector(dtype_exclude="category")),

@@ -20,10 +20,10 @@ RANDOM_STATE = 42
 FILENAME_BANK = "data.csv"
 FILENAME_SOCIO_ECO = "socio_eco.csv"
 FILENAME_DATA_TEST = "data_test.csv"
-
+FILENAME_SOCIO_ECO_TEST = "socio_eco.csv"
 FILENAME_BANK_TRAIN = "data_train.csv"
 
-
+RFC_PARAMS = {"max_depth": 7, "max_features": 5, "min_samples_split": 4, "n_estimators": 80}
 SEP = ";"
 
 COL_RAW_JOB = "JOB_TYPE"

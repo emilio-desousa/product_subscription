@@ -23,13 +23,21 @@ $ poetry install  # Install virtual environment with packages from pyproject.tom
 
 ### Run script
 
-In order to run the script, following steps could be performed:
-Please put you data to predict in the folder **data/raw**
+In order to run the script, following steps could be performed 
+( only csv format is supported for now, contact us if you neeed ):
+- Please put you data to predict and the file to train in the folder **data/raw**
+- For the Train file, please name it *data.csv" or change the value of **FILENAME_BANK** in `base.py`
+- For the social context data file, please name it "socio_eco.csv" or change the value of **FILENAME_SOCIO_ECO** in `base.py`
+- After that run the following commands:
+
 ```
 $ poetry shell 
-$ deposit_subscription --filename_to_predict  <filename_to_test>
+$ deposit_subscription --filename_to_predict  <filename_to_predict>
 ```
 
 ### Find predictions
 
-After running the script, you will be able to find the prediction results in a **csv** file in the **data/processed** folder.
+After running the script, you will be able to find the prediction results in a **csv** file in the **data/processed** folder. 
+**0** is for **No**
+**1** is for **Yes**
+*Care, you can overwrite it, please move it into another folder if you want to make another prediction*

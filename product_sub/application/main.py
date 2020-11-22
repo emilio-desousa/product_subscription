@@ -2,10 +2,10 @@ from product_sub.infrastructure.dataset_builder import DatasetBuilder
 from product_sub.domain.pipeline_creator import PipelineCreator
 from product_sub.settings.utils import update_progress
 import product_sub.settings as stg
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import RandomForestClassifier
 from imblearn.combine import SMOTEENN
-from sklearn.metrics import plot_confusion_matrix, classification_report
+
+# from sklearn.metrics import plot_confusion_matrix, classification_report
 
 import pandas as pd
 from os.path import join
@@ -46,18 +46,18 @@ def main():
 
     update_progress(0.6)
     print("progress : Fit model")
-    gradient_classifier = GradientBoostingClassifier()
-    gradient_classifier.fit(X_train, y_train)
+    random_forest_classifier = RandomForestClassifier(**stg.RFC_PARAMS)
+    random_forest_classifier.fit(X_train, y_train)
 
     update_progress(0.9)
     print("progress : Predict")
     X_test = DatasetBuilder(
         filename_bank=SAVED_FILENAME,
-        filename_socio=stg.FILENAME_SOCIO_ECO,
+        filename_socio=stg.FILENAME_SOCIO_ECO_TEST,
         is_test=True,
     ).create_dataset()
     X_test_transformed = preprocessor_pipeline.transform(X_test)
-    predictions = gradient_classifier.predict(X_test_transformed)
+    predictions = random_forest_classifier.predict(X_test_transformed)
     X_test["PREDICTED_SUBSCRIPTION"] = predictions
     X_test.to_csv(join(stg.PROCESSED_DATA_DIR, "predictions.csv"))
     print("Completed!")

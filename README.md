@@ -1,3 +1,5 @@
+## This is a repo. imported from Gitlab, some configurations can be broken
+
 Product Subscription
 
 Machine Learning Project: Product Subscription by Emilio De Sousa & Damien Mellot

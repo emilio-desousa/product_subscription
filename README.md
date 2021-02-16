@@ -1,6 +1,6 @@
-# Yotta - Product Subscription
+Product Subscription
 
-Project Nº1: Machine Learning Subject Nº3: Product Subscription by Emilio De Sousa & Damien Mellot
+Machine Learning Project: Product Subscription by Emilio De Sousa & Damien Mellot
 
 
 ## Getting started
